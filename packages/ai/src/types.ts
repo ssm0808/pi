@@ -435,6 +435,13 @@ export interface AnthropicMessagesCompat {
 	 * Default: true.
 	 */
 	supportsCacheControlOnTools?: boolean;
+	/**
+	 * Whether to send the API key as `Authorization: Bearer` (in addition to
+	 * `x-api-key`). Required for providers like MiniMax whose Anthropic-compatible
+	 * API uses Bearer token authentication instead of (or alongside) `x-api-key`.
+	 * Default: false.
+	 */
+	useBearerAuth?: boolean;
 }
 
 /**

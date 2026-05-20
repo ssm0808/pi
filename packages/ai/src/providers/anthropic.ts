@@ -175,6 +175,7 @@ function getAnthropicCompat(model: Model<"anthropic-messages">): Required<Anthro
 		sendSessionAffinityHeaders:
 			model.compat?.sendSessionAffinityHeaders ?? !!(isFireworks || isCloudflareAiGatewayAnthropic),
 		supportsCacheControlOnTools: model.compat?.supportsCacheControlOnTools ?? !isFireworks,
+		useBearerAuth: model.compat?.useBearerAuth ?? false,
 	};
 }
 
@@ -863,9 +864,10 @@ function createClient(
 	// API key auth
 	const sessionAffinityHeaders: Record<string, string | null> =
 		sessionId && getAnthropicCompat(model).sendSessionAffinityHeaders ? { "x-session-affinity": sessionId } : {};
+	const useBearerAuth = getAnthropicCompat(model).useBearerAuth;
 	const client = new Anthropic({
-		apiKey,
-		authToken: null,
+		apiKey: useBearerAuth ? null : apiKey,
+		authToken: useBearerAuth ? apiKey : null,
 		baseURL: model.baseUrl,
 		dangerouslyAllowBrowser: true,
 		defaultHeaders: mergeHeaders(
@@ -873,6 +875,7 @@ function createClient(
 				accept: "application/json",
 				"anthropic-dangerous-direct-browser-access": "true",
 				...(betaFeatures.length > 0 ? { "anthropic-beta": betaFeatures.join(",") } : {}),
+				...(useBearerAuth ? { "x-api-key": apiKey } : {}),
 			},
 			sessionAffinityHeaders,
 			model.headers,

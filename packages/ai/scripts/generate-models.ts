@@ -1482,6 +1482,7 @@ async function generateModels() {
 		) {
 			candidate.contextWindow = 204800;
 			candidate.maxTokens = 131072;
+			candidate.compat = { ...(candidate.compat ?? {}), useBearerAuth: true };
 		}
 	}
 

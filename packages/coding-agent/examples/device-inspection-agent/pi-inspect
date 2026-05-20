@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# 设备巡检 Agent — 单命令包装器
+#
+# 使用方式:
+#   ./pi-inspect "执行设备巡检"
+#   ./pi-inspect "查看所有 VAV 相关的巡检规则"
+#   ./pi-inspect                          # 使用默认 prompt
+#
+# 环境变量:
+#   MINIMAX_API_KEY        — 模型 API Key
+#   PI_MONOREPO_ROOT       — monorepo 根目录（默认自动检测）
+#   DEVICE_INSPECTION_API_URL — 巡检数据接口地址
+
+set -euo pipefail
+
+# 自动检测 monorepo 根目录（脚本所在位置的 6 层父目录）
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MONOREPO_ROOT="${PI_MONOREPO_ROOT:-$(cd "$SCRIPT_DIR/../../../../.." && pwd)}"
+
+AGENT_SCRIPT="$MONOREPO_ROOT/packages/coding-agent/examples/device-inspection-agent/index.ts"
+
+if [ ! -f "$AGENT_SCRIPT" ]; then
+    echo "错误: 找不到 Agent 脚本: $AGENT_SCRIPT" >&2
+    exit 1
+fi
+
+cd "$MONOREPO_ROOT"
+
+exec node --import tsx/esm "$AGENT_SCRIPT" "$@"

@@ -5651,6 +5651,7 @@ export const MODELS = {
 			api: "anthropic-messages",
 			provider: "minimax",
 			baseUrl: "https://api.minimax.io/anthropic",
+			compat: {"useBearerAuth":true},
 			reasoning: true,
 			input: ["text"],
 			cost: {
@@ -5668,6 +5669,7 @@ export const MODELS = {
 			api: "anthropic-messages",
 			provider: "minimax",
 			baseUrl: "https://api.minimax.io/anthropic",
+			compat: {"useBearerAuth":true},
 			reasoning: true,
 			input: ["text"],
 			cost: {
@@ -5687,6 +5689,7 @@ export const MODELS = {
 			api: "anthropic-messages",
 			provider: "minimax-cn",
 			baseUrl: "https://api.minimaxi.com/anthropic",
+			compat: {"useBearerAuth":true},
 			reasoning: true,
 			input: ["text"],
 			cost: {
@@ -5704,6 +5707,7 @@ export const MODELS = {
 			api: "anthropic-messages",
 			provider: "minimax-cn",
 			baseUrl: "https://api.minimaxi.com/anthropic",
+			compat: {"useBearerAuth":true},
 			reasoning: true,
 			input: ["text"],
 			cost: {
